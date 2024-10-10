@@ -21,8 +21,22 @@ void initializeNode(Node* node, int value) { //1. Инициализация у�
 void initializeList(DoubleLinkedList* list) { //1. Инициализация самого списка
     list->head = nullptr;
     list->tail = nullptr;
+
 }
-void appendList(DoubleLinkedList* list, int data) {
+
+
+void clear(DoubleLinkedList* list) { //2. Освобождение памяти
+    Node* current = list->head;
+    while (current) {
+        Node* nextNode = current->next; 
+        delete current;            
+        current = nextNode;              
+    }
+    list->head = nullptr; 
+    list->tail = nullptr;
+}
+
+void appendList(DoubleLinkedList* list, int data) { //3. Добавление элемента(упорядоченный по возрастаниюю)
     Node* newNode = new Node;
     initializeNode(newNode, data);
     if (!list->head) {
@@ -75,23 +89,18 @@ void deletenodevalue(DoubleLinkedList* list, int value) {//4. Удаление �
                 }
             }
             delete nodeToDelete; 
-            current = (nodeToDelete->next) ? nodeToDelete->next : list->head;
+            if (nodeToDelete->next != nullptr) {
+    current = nodeToDelete->next;
+} else {
+    current = list->head;
+}
+
         } else {
             current = current->next; 
         }
     }
 }
 
-void clear(DoubleLinkedList* list) { //2. Освобождение памяти
-    Node* current = list->head;
-    while (current) {
-        Node* nextNode = current->next; 
-        delete current;            
-        current = nextNode;              
-    }
-    list->head = nullptr; 
-    list->tail = nullptr;
-}
 
 void print_list(DoubleLinkedList* list) { //7. Печать листа
     Node* current = list->head;
